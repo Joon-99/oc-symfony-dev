@@ -229,22 +229,37 @@ nav {
 /****** Hebergements ***********/
 .hebergements {
     width: 65%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
 .hebergements-cards {
+    width: 100%;
     display: flex;
+    flex: 1 1 auto;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 2%;
+    justify-content: space-evenly;
 }
 
 .hebergements-cards .card {
+    aspect-ratio: 12 / 10;
+    display: block;
     margin-top: 33px;
+    width: 15em;
+    min-width: 28%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hebergements article {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 13em;
-    width: 15em;
 }
 
 .hebergements-cards img {
@@ -333,19 +348,19 @@ nav {
 }
 
 .activites section {
+    width: 100%;
     background-color: white;
     border-radius: 20px;
     padding: 30px;
     box-sizing: border-box;
-    width: 100%;
 }
 
 .activites-cards {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1em;
+    flex-wrap: nowrap;
+    gap: 2%;
     width: 100%;
 }
 
@@ -357,7 +372,7 @@ nav {
 
 .activites-cards .card {
     width: 17em;
-    height: 25em;
+    min-width: 20%;
     display: flex;
     flex-direction: column;
     margin-top: 15px;
