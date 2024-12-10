@@ -1,4 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+:root {
+    --notif-color-success: #def2d6;
+    --notif-color-error: #ecc8c5;
+    --notif-color-warning: #f8f3d6;
+    --notif-color-info: #cde8f5;
+}
 
 html, body {
     margin: 0;
@@ -21,6 +27,29 @@ header {
     max-width: 1080px;
     margin: auto;
     padding: 45px 15px;
+}
+
+#notification-box {
+    max-width: 1080px;
+    margin: auto;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.notification.error {
+    background-color: var(--notif-color-error);
+}
+
+.notification.success {
+    background-color: var(--notif-color-success);
+}
+
+.notification.warning {
+    background-color: var(--notif-color-warning);
+}
+
+.notification.info{
+    background-color: var(--notif-color-info);
 }
 
 #logo {

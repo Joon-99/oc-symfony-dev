@@ -18,4 +18,15 @@
         </ul>
     </nav>
 </header>
+    <?php
+        if (isset($_SESSION['notification'])) {
+            $notifType = $_SESSION['notification']['type'];
+            echo "<div id='notification-box' class='notification $notifType'>";
+            foreach ($_SESSION['notification']['messages'] as $message) {
+                echo $message . "<br>";
+            }
+            echo "</div>";
+            unset($_SESSION['notification']);
+        }
+    ?>
 <main>
