@@ -32,13 +32,13 @@
 
 <article id="detail-oeuvre">
     <div id="img-oeuvre">
-        <img src="<?= $oeuvre['image_path'] ?>" alt="<?= $oeuvre['title'] ?>">
+        <img src="<?= htmlspecialchars($oeuvre['image_path'], encoding: 'utf-8') ?>" alt="<?= htmlspecialchars($oeuvre['title'], encoding: 'utf-8') ?>">
     </div>
     <div id="contenu-oeuvre">
-        <h1><?= $oeuvre['title'] ?></h1>
-        <p class="description"><?= $oeuvre['artist_name'] ?></p>
+        <h1><?= htmlspecialchars($oeuvre['title'], encoding: 'utf-8') ?></h1>
+        <p class="description"><?= htmlspecialchars($oeuvre['artist_name'], encoding: 'utf-8') ?></p>
         <p class="description-complete">
-             <?= $oeuvre['description'] ?>
+             <?= htmlspecialchars($oeuvre['description'], encoding: 'utf-8') ?>
         </p>
     </div>
 </article>

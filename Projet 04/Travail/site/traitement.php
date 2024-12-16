@@ -15,7 +15,7 @@ require_once 'db-pdo.php';
 * $location : la page de destination de la redirection
 * $details : un tableau de chaînes supplémentaires si besoin
 */
-function customRedirect(string $type, string $msg, string $location = REDIR_DEFAULT_LOC, $details = []): void {
+function customRedirect(string $type, string $msg, string $location = REDIR_DEFAULT_LOC, array $details = []): void {
     $types = [
         NOTIF_TYPE_ERROR,
         NOTIF_TYPE_WARNING,
@@ -37,13 +37,7 @@ function customRedirect(string $type, string $msg, string $location = REDIR_DEFA
 /*
 * Valide l'input envoyé par l'utilisateur lors de la création d'une oeuvre.
 */
-//TODO CHANGE TO HTMLSPECIALCHARS()
-//TODO FINISH COMMENTS
 function isValidOeuvreInput(string $title, string $artistName, string $description, string $imagePath): bool {
-    $title = trim(filter_var($title, FILTER_SANITIZE_STRING));
-    $artistName = trim(filter_var($artistName, FILTER_SANITIZE_STRING));
-    $description = trim(filter_var($description, FILTER_SANITIZE_STRING));
-    $imagePath = trim(filter_var($imagePath, FILTER_SANITIZE_URL));
 
     $hasValidTitle = $title && mb_strlen($title) <= 50;
     $hasValidArtist = $artistName && mb_strlen($artistName) <= 30;
@@ -52,7 +46,7 @@ function isValidOeuvreInput(string $title, string $artistName, string $descripti
     $parsedURL = parse_url($imagePath);
     $scheme = $parsedURL['scheme'] ?? null;
     $isValidScheme = in_array($scheme, EXT_IMG_PROTOCOLS);
-    $hasValidPath = filter_var($imagePath, FILTER_VALIDATE_URL) && $isValidScheme;
+    $hasValidPath = filter_var($imagePath, FILTER_VALIDATE_URL) && $isValidScheme && mb_strlen($imagePath) <= 255;
 
     return $hasValidTitle && $hasValidArtist && $hasValidDescription && $hasValidPath;
 }
@@ -67,7 +61,7 @@ if (isValidOeuvreInput($oTitle, $oArtistName, $oDescription, $oImagePath)) {
         addOeuvre($client, [
             'title' => $oTitle,
             'artist_name' => $oArtistName,
-            'description'=> $oDescription,
+            'description' => $oDescription,
             'image_path' => $oImagePath,
         ]);
     } catch (Exception $e) {

@@ -16,10 +16,10 @@
 <div id="liste-oeuvres">
     <?php foreach($oeuvres as $oeuvre): ?>
         <article class="oeuvre">
-            <a href="oeuvre.php?id=<?=$oeuvre['id'] ?>">
-                <img src="<?= $oeuvre['image_path'] ?>" alt="<?= $oeuvre['title'] ?>">
-                <h2><?= $oeuvre['title'] ?></h2>
-                <p class="description"><?= $oeuvre['artist_name'] ?></p>
+            <a href="oeuvre.php?id=<?= htmlspecialchars($oeuvre['id'], encoding: 'utf-8') ?>">
+                <img src="<?= htmlspecialchars($oeuvre['image_path'], encoding: 'utf-8') ?>" alt="<?= htmlspecialchars($oeuvre['title'], encoding: 'utf-8') ?>">
+                <h2><?= htmlspecialchars($oeuvre['title'], encoding: 'utf-8') ?></h2>
+                <p class="description"><?= htmlspecialchars($oeuvre['artist_name'], encoding: 'utf-8') ?></p>
             </a>
         </article>
     <?php endforeach; ?>

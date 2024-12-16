@@ -1,4 +1,9 @@
 <?php
+/*
+* Constantes
+* -----------
+*/
+
 const REDIR_DEFAULT_LOC = "index.php";
 
 const NOTIF_TYPE_ERROR = "error";

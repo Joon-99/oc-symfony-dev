@@ -19,6 +19,9 @@
     </nav>
 </header>
     <?php
+        /*
+        * Affiche une notification si une notification est disponible.
+        */
         if (isset($_SESSION['notification'])) {
             $notifType = $_SESSION['notification']['type'];
             echo "<div id='notification-box' class='notification $notifType'>";
