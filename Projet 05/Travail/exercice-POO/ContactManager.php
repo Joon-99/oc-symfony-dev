@@ -1,4 +1,6 @@
 <?php
+require_once "DBConnect.php";
+require_once "Contact.php";
 class ContactManager {
     private DBConnect $dbUnit;
     private PDO $pdoClient;

@@ -75,7 +75,7 @@ class Command {
     public function detail(string $id): void {
         $contactToExamine = $this->contactManager->findById($id);
         if ($contactToExamine) {
-            echo $contactToExamine;
+            echo $contactToExamine . PHP_EOL;
         }
         else { 
             echo "No contact found with the id: $id" . PHP_EOL;
