@@ -1,13 +1,7 @@
 <?php
-
+require_once "Config.php";
 class DBConnect
 {
-    private string $DB_HOST = "localhost";
-    private string $DB_NAME = "exercise-p05";
-    private string $DB_USER = "root";
-    private string $DB_PASSWORD = "";
-    private string $DB_CONNECTION_CHARSET = "utf8mb4";
-
     private string $DB_CONNECT_STR;
 
     private PDO $pdoInstance;
@@ -15,7 +9,7 @@ class DBConnect
     public function __construct()
     {
         // watch out, php doesn't throw anything if you send a named parameter with a typo
-        $this->DB_CONNECT_STR = "mysql:host={$this->DB_HOST};dbname={$this->DB_NAME};charset={$this->DB_CONNECTION_CHARSET};";
+        $this->DB_CONNECT_STR = "mysql:host=" . Config::DB_HOST . ";dbname=" . Config::DB_NAME . ";charset=" . Config::DB_CONNECTION_CHARSET . ";";
     }
 
     public function getPDO(): ?PDO
@@ -23,8 +17,8 @@ class DBConnect
         try {
             $pdoClient = new PDO(
                 $this->DB_CONNECT_STR,
-                $this->DB_USER,
-                $this->DB_PASSWORD,
+                Config::DB_USER,
+                Config::DB_PASSWORD,
             );
         } catch (Exception $e) {
             return null;
