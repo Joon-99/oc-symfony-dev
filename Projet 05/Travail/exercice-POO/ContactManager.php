@@ -1,4 +1,9 @@
 <?php
+/**
+ * Handles all SQL queries on the contact table.
+ * A simple CRUD.
+ */
+
 require_once "DBConnect.php";
 require_once "Contact.php";
 class ContactManager

@@ -1,4 +1,8 @@
 <?php
+/**
+ * Represents a row of the table contact.
+ */
+
 class Contact
 {
     private ?int $id;

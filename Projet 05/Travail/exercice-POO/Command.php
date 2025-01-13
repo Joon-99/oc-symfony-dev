@@ -1,4 +1,9 @@
 <?php
+/**
+ * Handles all commands of the application.
+ * Detecs a command through a regex and calls the corresponding function.
+ * Uses a ContactManager class to handle the contact table.
+ */
 
 require_once "ContactManager.php";
 class Command

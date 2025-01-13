@@ -1,4 +1,9 @@
 <?php
+/**
+ * Connects to the database and provides a PDO instance.
+ * Handles a query and returns a PDO statement.
+ */
+
 require_once "Config.php";
 class DBConnect
 {
