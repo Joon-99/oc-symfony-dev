@@ -1,16 +1,19 @@
 <?php
 require_once "DBConnect.php";
 require_once "Contact.php";
-class ContactManager {
+class ContactManager
+{
     private DBConnect $dbUnit;
     private PDO $pdoClient;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->dbUnit = new DBConnect();
         $this->pdoClient = $this->dbUnit->getPDO();
     }
 
-    public function findAll() : ?array {
+    public function findAll(): ?array
+    {
         $sql = <<<SQL
             SELECT * FROM contact;
         SQL;
@@ -27,7 +30,8 @@ class ContactManager {
         }
         return $contactList;
     }
-    public function findById(string $idToFind) : ?Contact {
+    public function findById(string $idToFind): ?Contact
+    {
         $sql = <<<SQL
             SELECT * FROM contact
             WHERE id = :id;
@@ -42,12 +46,12 @@ class ContactManager {
         $result = $pdoStatement->fetch(PDO::FETCH_ASSOC);
         if ($result) {
             return new Contact($result['id'], $result['name'], $result['email'], $result['phone_number']);
-        }
-        else {
+        } else {
             return null;
         }
     }
-    public function createContact(string $name, string $email, string $phoneNumber) : bool {
+    public function createContact(string $name, string $email, string $phoneNumber): bool
+    {
         $sql = <<<SQL
             INSERT INTO contact (name, email, phone_number) VALUES (:name, :email, :phoneNumber);
         SQL;
@@ -65,7 +69,8 @@ class ContactManager {
         return true;
     }
 
-    public function deleteContact(string $id) : bool {
+    public function deleteContact(string $id): bool
+    {
         $sql = <<<SQL
             DELETE FROM contact WHERE id = :id;
         SQL;
@@ -79,7 +84,8 @@ class ContactManager {
         return $pdoStatement->rowCount() > 0;
     }
 
-    public function modifyContact(string $id, string $name, string $email, string $phoneNumber) : bool {
+    public function modifyContact(string $id, string $name, string $email, string $phoneNumber): bool
+    {
         $sql = <<<SQL
             UPDATE contact
             SET name = :name, email = :email, phone_number = :phoneNumber

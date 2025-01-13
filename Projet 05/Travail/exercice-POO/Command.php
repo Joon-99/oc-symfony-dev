@@ -1,7 +1,8 @@
 <?php
 
 require_once "ContactManager.php";
-class Command {
+class Command
+{
     private const PATTERN_COMMAND_LIST = '/list/';
     private const PATTERN_COMMAND_DETAIL = '/detail ([0-9]+)/';
     private const PATTERN_COMMAND_CREATE = '/^create ([A-Za-z -]{1,100}),([A-Za-z\.@-]{1,150}),([0-9]{1,50})$/';
@@ -11,10 +12,12 @@ class Command {
     private const PATTERN_COMMAND_EXIT = '/exit/';
     private ContactManager $contactManager;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->contactManager = new ContactManager();
     }
-    public function exec($input) : void {
+    public function exec($input): void
+    {
         $commandNames = [
             'list',
             'detail <id>',
@@ -57,7 +60,8 @@ class Command {
                 }
         }
     }
-    public function list() : void {
+    public function list(): void
+    {
         $contactList = $this->contactManager->findAll();
         $listCorner = '**';
         $listVEdgeLeft = '| ';
@@ -72,16 +76,17 @@ class Command {
         }
         echo $listCorner . str_repeat($listFillChar, $maxLength) . $listCorner . PHP_EOL;
     }
-    public function detail(string $id): void {
+    public function detail(string $id): void
+    {
         $contactToExamine = $this->contactManager->findById($id);
         if ($contactToExamine) {
             echo $contactToExamine . PHP_EOL;
-        }
-        else { 
+        } else {
             echo "No contact found with the id: $id" . PHP_EOL;
         }
     }
-    public function create(string $name, string $email, string $phoneNumber): void {
+    public function create(string $name, string $email, string $phoneNumber): void
+    {
         $result = $this->contactManager->createContact($name, $email, $phoneNumber);
         if ($result) {
             echo "Contact created successfully." . PHP_EOL;
@@ -89,7 +94,8 @@ class Command {
             echo "Failure to create the contact." . PHP_EOL;
         }
     }
-    public function delete(string $id): void {
+    public function delete(string $id): void
+    {
         $result = $this->contactManager->deleteContact($id);
         if ($result) {
             echo "Contact deleted successfully." . PHP_EOL;
@@ -97,7 +103,8 @@ class Command {
             echo "Failure to delete the contact." . PHP_EOL;
         }
     }
-    public function modify(string $id, string $name, string $email, string $phoneNumber) : void {
+    public function modify(string $id, string $name, string $email, string $phoneNumber): void
+    {
         $result = $this->contactManager->modifyContact($id, $name, $email, $phoneNumber);
         if ($result) {
             echo "Contact modified successfully." . PHP_EOL;
