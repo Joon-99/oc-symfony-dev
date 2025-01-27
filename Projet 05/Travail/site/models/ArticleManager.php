@@ -16,6 +16,8 @@ class ArticleManager extends AbstractEntityManager
         $articles = [];
 
         while ($article = $result->fetch()) {
+            $articleViewManager = new ArticleViewManager();
+            $article['nb_views'] = $articleViewManager->getNbViewsById($article['id']);
             $articles[] = new Article($article);
         }
         return $articles;

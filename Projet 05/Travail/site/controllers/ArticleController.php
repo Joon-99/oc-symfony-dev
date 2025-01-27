@@ -12,7 +12,9 @@ class ArticleController
         $articles = $articleManager->getAllArticles();
 
         $view = new View("Accueil");
-        $view->render("home", ['articles' => $articles]);
+        $view->render("home", [
+            'articles' => $articles,
+        ]);
     }
 
     /**
@@ -25,7 +27,10 @@ class ArticleController
         $id = Utils::request("id", -1);
 
         $articleManager = new ArticleManager();
+        $articleViewManager = new ArticleViewManager();
+
         $article = $articleManager->getArticleById($id);
+        $articleViewManager->createArticleView($id);
         
         if (!$article) {
             throw new Exception("L'article demandé n'existe pas.");
@@ -35,7 +40,11 @@ class ArticleController
         $comments = $commentManager->getAllCommentsByArticleId($id);
 
         $view = new View($article->getTitle());
-        $view->render("detailArticle", ['article' => $article, 'comments' => $comments]);
+        $view->render("detailArticle", [
+            'article' => $article,
+            'comments' => $comments,
+            'nb_views' => $articleViewManager->getNbViewsById($id),
+        ]);
     }
 
     /**
