@@ -3,32 +3,61 @@
 /**
  * Classe qui gère les articles.
  */
-class ArticleManager extends AbstractEntityManager 
+class ArticleManager extends AbstractEntityManager
 {
     /**
      * Récupère tous les articles.
      * @return array : un tableau d'objets Article.
      */
-    public function getAllArticles() : array
+    public function getAllArticles(): array
     {
-        $sql = "SELECT * FROM article";
+        $sql = "SELECT * FROM v_article";
         $result = $this->db->query($sql);
         $articles = [];
 
         while ($article = $result->fetch()) {
-            $articleViewManager = new ArticleViewManager();
-            $article['nb_views'] = $articleViewManager->getNbViewsById($article['id']);
             $articles[] = new Article($article);
         }
         return $articles;
     }
-    
+    public function getSortedArticles(string $column, string $order): array
+    {
+        if (!in_array($column, $this->getValidColumns('v_article'))) {
+            throw new Exception("No column named $column in this object.");
+        }
+        if (!in_array($order, ['ASC', 'DESC'])) {
+            throw new Exception("Only ASC or DESC allowed as order");
+        }
+        $sql = "SELECT * FROM v_article ORDER BY $column $order";
+        $result = $this->db->query($sql);
+        $articles = [];
+
+        while ($article = $result->fetch()) {
+            $articles[] = new Article($article);
+        }
+        return $articles;
+    }
+
+    public function getValidColumns(string $tableName): array
+    {
+        $sql = "SHOW COLUMNS FROM $tableName";
+        $result = $this->db->query($sql);
+        $columns = [];
+
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $columns[] = $row['Field'];
+        }
+
+        return $columns;
+    }
+
+
     /**
      * Récupère un article par son id.
      * @param int $id : l'id de l'article.
      * @return Article|null : un objet Article ou null si l'article n'existe pas.
      */
-    public function getArticleById(int $id) : ?Article
+    public function getArticleById(int $id): ?Article
     {
         $sql = "SELECT * FROM article WHERE id = :id";
         $result = $this->db->query($sql, ['id' => $id]);
@@ -45,7 +74,7 @@ class ArticleManager extends AbstractEntityManager
      * @param Article $article : l'article à ajouter ou modifier.
      * @return void
      */
-    public function addOrUpdateArticle(Article $article) : void 
+    public function addOrUpdateArticle(Article $article): void
     {
         if ($article->getId() == -1) {
             $this->addArticle($article);
@@ -59,7 +88,7 @@ class ArticleManager extends AbstractEntityManager
      * @param Article $article : l'article à ajouter.
      * @return void
      */
-    public function addArticle(Article $article) : void
+    public function addArticle(Article $article): void
     {
         $sql = "INSERT INTO article (id_user, title, content, date_creation) VALUES (:id_user, :title, :content, NOW())";
         $this->db->query($sql, [
@@ -74,7 +103,7 @@ class ArticleManager extends AbstractEntityManager
      * @param Article $article : l'article à modifier.
      * @return void
      */
-    public function updateArticle(Article $article) : void
+    public function updateArticle(Article $article): void
     {
         $sql = "UPDATE article SET title = :title, content = :content, date_update = NOW() WHERE id = :id";
         $this->db->query($sql, [
@@ -89,7 +118,7 @@ class ArticleManager extends AbstractEntityManager
      * @param int $id : l'id de l'article à supprimer.
      * @return void
      */
-    public function deleteArticle(int $id) : void
+    public function deleteArticle(int $id): void
     {
         $sql = "DELETE FROM article WHERE id = :id";
         $this->db->query($sql, ['id' => $id]);

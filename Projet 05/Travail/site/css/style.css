@@ -21,6 +21,8 @@
     --quoteColor: #c5cbe4;
     --commentPaleColor: #99a140;
     --commentColor: #255E33;
+    --statsHeaderColor: #767d31; 
+    --statsPaleHeaderColor: #aab347; 
 }
 
 /**
@@ -320,6 +322,7 @@ a.info {
 .articleLine div {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .articleLine .title {
@@ -328,8 +331,21 @@ a.info {
     width: 200px;
 }
 
+.statsTable .title {
+    background-color: var(--statsHeaderColor);
+}
+
 .articleLine .content {
     flex-grow: 1;
+}
+
+.statsTable .content {
+    width: 200px;
+    text-align: center;
+}
+
+.statsTable .content.even {
+    background-color: var(--statsPaleHeaderColor);
 }
 
 .articleLine > div {

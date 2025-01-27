@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emilie Forteroche</title>
+    <title><?= $title ?></title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -25,6 +25,9 @@
             <?php 
                 // Si on est connecté, on affiche le bouton de déconnexion, sinon, on affiche le bouton de connexion : 
                 if (isset($_SESSION['user'])) {
+                    if ($_SESSION['idUser'] === 1) {
+                        echo '<a href="index.php?action=showStats">Statistiques</a>';
+                    }
                     echo '<a href="index.php?action=disconnectUser">Déconnexion</a>';
                 }
                 ?>
