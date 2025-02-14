@@ -25,7 +25,8 @@
             <?php 
                 // Si on est connecté, on affiche le bouton de déconnexion, sinon, on affiche le bouton de connexion : 
                 if (isset($_SESSION['user'])) {
-                    if ($_SESSION['idUser'] === 1) {
+                    if (Utils::isUserAdmin()) {
+                        echo '<a href="index.php?action=admin">Édition</a>';
                         echo '<a href="index.php?action=showStats">Statistiques</a>';
                     }
                     echo '<a href="index.php?action=disconnectUser">Déconnexion</a>';

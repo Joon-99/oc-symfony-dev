@@ -87,4 +87,8 @@ class Utils {
         return $_REQUEST[$variableName] ?? $defaultValue;
     }
 
+    public static function isUserAdmin(): bool {
+        return isset($_SESSION['user']) && isset($_SESSION['idUser']) && $_SESSION['idUser'] === 1;
+    }
+
 }

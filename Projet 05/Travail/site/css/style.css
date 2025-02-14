@@ -23,6 +23,7 @@
     --commentColor: #255E33;
     --statsHeaderColor: #767d31; 
     --statsPaleHeaderColor: #aab347; 
+    --statsSelectedOrder: #BFAF3D; 
 }
 
 /**
@@ -276,6 +277,10 @@ a.info {
 }
 
 /* On redéfinit certaines parties du "info" pour l'affichage dans les commentaires */
+.detailComment {
+    width: 100%;
+}
+
 .detailComment .info {
     margin: 5px 0 5px 0;
     font-style: normal;
@@ -331,12 +336,18 @@ a.info {
     width: 200px;
 }
 
-.statsTable .title {
-    background-color: var(--statsHeaderColor);
-}
 
 .articleLine .content {
     flex-grow: 1;
+}
+
+.statsTable {
+    width: 100%;
+}
+
+.statsTable .title {
+    width: 100%;
+    background-color: var(--statsHeaderColor);
 }
 
 .statsTable .content {
@@ -348,10 +359,30 @@ a.info {
     background-color: var(--statsPaleHeaderColor);
 }
 
+.statsActiveOrder {
+    color: var(--statsSelectedOrder)
+}
+
 .articleLine > div {
+    display: flex;
+    gap: 5px;
     padding: 20px;
     border: 1px solid var(--backgroundColor);
 }
+
+.info-delete {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.delete-link {
+    font-size: small;
+    margin-top: 6px;
+    color: var(--titleColor);
+
+}
+
 
 /** 
  * Footer global de la page.

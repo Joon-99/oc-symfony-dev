@@ -44,4 +44,34 @@ class CommentController
         // On redirige vers la page de l'article.
         Utils::redirect("showArticle", ['id' => $idArticle]);
     }
+
+    public function deleteComment() : void
+    {
+        // On vérifie qu'on est admin
+        AdminController::checkIfUserIsAdmin();
+
+        // On vérifie l'id en entrée
+        $commentId = filter_var(Utils::request('id', -1), FILTER_VALIDATE_INT);
+        if (!$commentId) {
+            throw new Exception("Erreur en entrée.");
+        }
+        $commentManager = new CommentManager();
+        $comment = $commentManager->getCommentById($commentId);
+        if (!$comment) {
+            throw new Exception("Aucun commentaire ne correspond à cet identifiant.");
+        }
+
+        // Récupération de l'article pour la redirection
+        $originalArticle = $comment->getIdArticle();
+
+        // Suppression de l'article
+        try {
+            $commentManager->deleteComment($comment);
+        } catch (Exception $e) {
+            throw new Exception("Erreur pendant la suppression du commentaire : $commentId");
+        }
+
+        // Redirection
+        Utils::redirect("showArticle", ['id' => $originalArticle]);
+    }
 }

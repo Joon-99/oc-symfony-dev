@@ -30,7 +30,12 @@
                 echo '<li>';
                 echo '  <div class="smiley">☻</div>';
                 echo '  <div class="detailComment">';
-                echo '      <h3 class="info">Le ' . Utils::convertDateToFrenchFormat($comment->getDateCreation()) . ", " . Utils::format($comment->getPseudo()) . ' a écrit :</h3>';
+                echo '      <div class="info-delete">';
+                echo '          <h3 class="info">Le ' . Utils::convertDateToFrenchFormat($comment->getDateCreation()) . ", " . Utils::format($comment->getPseudo()) . ' a écrit :</h3>';
+                if (Utils::isUserAdmin()) {
+                    echo '          <a class="delete-link" href="index.php?action=deleteComment&id=' . $comment->getId() . '"' . Utils::askConfirmation("Êtes-vous sûr(e) de vouloir supprimer ce commentaire ?") . '>Supprimer</a>';
+                }
+                echo '      </div>';
                 echo '      <p class="content">' . Utils::format($comment->getContent()) . '</p>';
                 echo '  </div>';
                 echo '</li>';

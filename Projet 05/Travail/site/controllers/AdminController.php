@@ -13,7 +13,7 @@ class AdminController
     public function showAdmin(): void
     {
         // On vérifie que l'utilisateur est connecté.
-        $this->checkIfUserIsConnected();
+        $this->checkIfUserIsAdmin();
 
         // On récupère les articles.
         $articleManager = new ArticleManager();
@@ -34,6 +34,17 @@ class AdminController
     {
         // On vérifie que l'utilisateur est connecté.
         if (!isset($_SESSION['user'])) {
+            Utils::redirect("connectionForm");
+        }
+    }
+
+    /**
+     * Vérifie que l'utilisateur est connecté en admin.
+     * @return void
+     */
+    public static function checkIfUserIsAdmin(): void
+    {
+        if (!(Utils::isUserAdmin())) {
             Utils::redirect("connectionForm");
         }
     }
@@ -104,7 +115,7 @@ class AdminController
      */
     public function showUpdateArticleForm(): void
     {
-        $this->checkIfUserIsConnected();
+        $this->checkIfUserIsAdmin();
 
         // On récupère l'id de l'article s'il existe.
         $id = Utils::request("id", -1);
@@ -132,7 +143,7 @@ class AdminController
      */
     public function updateArticle(): void
     {
-        $this->checkIfUserIsConnected();
+        $this->checkIfUserIsAdmin();
 
         // On récupère les données du formulaire.
         $id = Utils::request("id", -1);
@@ -167,7 +178,7 @@ class AdminController
      */
     public function deleteArticle(): void
     {
-        $this->checkIfUserIsConnected();
+        $this->checkIfUserIsAdmin();
 
         $id = Utils::request("id", -1);
 
@@ -185,35 +196,16 @@ class AdminController
      */
     public function showStats(): void
     {
-        if (!isset($_SESSION['idUser']) || $_SESSION['idUser'] !== 1) {
-            Utils::redirect('admin');
-        }
-        $column = Utils::request('column');
-        $order = Utils::request('order');
-        var_dump("input - column: $column - order: $order");
-        if ($column && $order) {
-            if (isset($_SESSION['column']) && $_SESSION['column'] !== '') {
-                var_dump("session - column: {$_SESSION['column']} - order {$_SESSION['order']}");
-                if ($column === $_SESSION['column']) {
-                    $_SESSION['order'] = $_SESSION['order'] === 'ASC' ? 'DESC' : 'ASC';
-                } else {
-                    $_SESSION['column'] = $column;
-                    $_SESSION['order'] = $order;
-                }
-            } else {
-                $_SESSION['column'] = 'nb_views';
-                $_SESSION['order'] = 'DESC';
-            }
-        } else {
-            $column = 'nb_views';
-            $order = 'DESC';
-        }
+        $this->checkIfUserIsAdmin();
+
+        $_SESSION['column'] = Utils::request('column', 'nb_views');
+        $_SESSION['order'] = Utils::request('order', 'DESC');
         $articleManager = new ArticleManager();
-        $articles = $articleManager->getSortedArticles($column, $order);
+        $articles = $articleManager->getSortedArticles($_SESSION['column'], $_SESSION['order']);
 
         $view = new View("Statistiques");
         $view->render("showStats", [
-            'articles' => $articles
+            'articles' => $articles,
         ]);
     }
 }
