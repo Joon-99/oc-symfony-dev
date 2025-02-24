@@ -1,9 +1,8 @@
 <?php
-//TODO commentaires
-//TODO check htmlspecialchars
+// Fonction pour insérer un bouton de tri de colonne
 function insertOrderButton(string $column, string $order, string $char): string
 {
-    $class = $_SESSION['column'] === $column && $_SESSION['order'] === $order ? 'statsActiveOrder' : '';
+    $class = Utils::request('column', 'nb_views') === $column && Utils::request('order', 'DESC')=== $order ? 'statsActiveOrder' : '';
     $buttonHtml = "<a class=\"$class\" href=\"index.php?action=showStats&column=$column&order=$order\">$char</a>";
     return $buttonHtml;
 }

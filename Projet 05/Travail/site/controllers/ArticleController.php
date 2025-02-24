@@ -30,11 +30,12 @@ class ArticleController
         $articleViewManager = new ArticleViewManager();
 
         $article = $articleManager->getArticleById($id);
-        $articleViewManager->createArticleView($id);
         
         if (!$article) {
             throw new Exception("L'article demandé n'existe pas.");
         }
+
+        $articleViewManager->createArticleView($id);
 
         $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);

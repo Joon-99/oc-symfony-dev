@@ -198,10 +198,8 @@ class AdminController
     {
         $this->checkIfUserIsAdmin();
 
-        $_SESSION['column'] = Utils::request('column', 'nb_views');
-        $_SESSION['order'] = Utils::request('order', 'DESC');
         $articleManager = new ArticleManager();
-        $articles = $articleManager->getSortedArticles($_SESSION['column'], $_SESSION['order']);
+        $articles = $articleManager->getSortedArticles(Utils::request('column', 'nb_views'), Utils::request('order', 'DESC'));
 
         $view = new View("Statistiques");
         $view->render("showStats", [
