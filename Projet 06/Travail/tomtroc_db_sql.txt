@@ -1,0 +1,99 @@
+CREATE TABLE authors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    pen_name VARCHAR(255),
+    biography TEXT,
+    valid INT NOT NULL DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    profile_img_id INT,
+    valid INT NOT NULL DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE files (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    title VARCHAR(255),
+    mime_type VARCHAR(255),
+    url VARCHAR(255),
+    file_path VARCHAR(255),
+    valid INT NOT NULL DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+ALTER TABLE users
+ADD CONSTRAINT fk_users_files
+FOREIGN KEY (profile_img_id) REFERENCES files(id);
+
+CREATE TABLE books (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    author INT NOT NULL,
+    FOREIGN KEY (author) REFERENCES authors(id),
+    owner INT NOT NULL,
+    FOREIGN KEY (owner) REFERENCES users(id),
+    cover_img_id INT,
+    FOREIGN KEY (cover_img_id) REFERENCES files(id),
+    available BOOLEAN NOT NULL DEFAULT 1,
+    valid INT NOT NULL DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    FOREIGN KEY (sender_id) REFERENCES users(id),
+    receiver_id INT NOT NULL,
+    FOREIGN KEY (receiver_id) REFERENCES users(id),
+    content TEXT NOT NULL,
+    valid INT NOT NULL DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (username, password_hash, email)
+VALUES
+('admin', 'admin', 'admin@admin.com'),
+('CamilleClubLit', LOWER('CamilleClubLit'), 'test@test.com'),
+('Nathalire', LOWER('Nathalire'), 'test@test.com'),
+('Alexlecture', LOWER('Alexlecture'), 'test@test.com'),
+('Hugo1990_12', LOWER('Hugo1990_12'), 'test@test.com')
+;
+
+INSERT INTO authors (first_name, last_name, pen_name)
+VALUES
+(NULL, NULL, 'Alabaster'),
+('Nathan', 'Williams', NULL),
+('Beth', 'Kempton', NULL),
+('Rupi', 'Kaur', NULL)
+;
+
+INSERT INTO books (title, author, owner)
+VALUES
+('Esther', 1, 2),
+('The Kinfolk Table', 2, 3),
+('Wabi Sabi', 3, 4),
+('Milk & honey', 4, 5)
+;
+
+INSERT INTO files (user_id, title, mime_type, file_path)
+VALUES
+(1, 'Esther', 'image/jpeg', 'esther.jpg'),
+(1, 'The Kinfolk Table', 'image/jpeg', 'the-kinfolk-table.jpg'),
+(1, 'Wabi Sabi', 'image/jpeg', 'wabi-sabi.jpg'),
+(1, 'Milk & honey', 'image/jpeg', 'milk-honey.jpg')
+;
